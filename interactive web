@@ -1,0 +1,22 @@
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+        user_input = request.form.get("user_input")
+        topic = request.form.get("topic")
+        folder_name = "complaint" if "klacht" in user_input.lower() else "suggestion"
+        save_to_file(folder_name, f"{topic}.txt", user_input)
+        return "Bedankt voor het indienen!"
+
+    return render_template("index.html")
+
+def save_to_file(folder_name, filename, content):
+    filepath = os.path.join(folder_name, filename)
+    with open(filepath, "a") as file:
+        file.write(content + "\n")
+
+if __name__ == "__main__":
+    app.run(debug=True)
