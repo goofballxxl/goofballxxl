@@ -1,0 +1,29 @@
+import os
+
+def main():
+    # Maak mappen voor klachten en suggesties
+    create_folders()
+
+    while True:
+        user_input = input("Voer een klacht in (of 'stop' om te stoppen): ")
+        if user_input.lower() == 'stop':
+            break
+
+        topic = input("Voer het onderwerp van de klacht in: ")
+        save_complaint(user_input, topic)
+
+    print("Bedankt voor het invoeren van klachten!")
+
+def create_folders():
+    if not os.path.exists("klachten"):
+        os.makedirs("klachten")
+    if not os.path.exists("suggesties"):
+        os.makedirs("suggesties")
+
+def save_complaint(complaint, topic):
+    filename = f"klachten/{topic}.txt"
+    with open(filename, "a") as file:
+        file.write(complaint + "\n")
+
+if __name__ == "__main__":
+    main() 
